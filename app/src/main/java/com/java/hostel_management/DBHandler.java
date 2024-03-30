@@ -20,8 +20,8 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createRoomType = "CREATE TABLE ROOMTYPE(" +
-                "id INTEGER primary key autoincrement," +
-                "name TEXT not null," +
+                "id INTEGER primary key autoincrement, " +
+                "name TEXT not null, " +
                 "price MONEY not null)";
 
         String createRoom = "CREATE TABLE ROOM ( " +
@@ -83,7 +83,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("name", n);
         values.put("price", p);
         db.insert("ROOMTYPE", null, values);
-        db.close();
+        //db.close();
 
     }
 }
