@@ -26,6 +26,14 @@ public class ManageActivity extends AppCompatActivity {
             }
         });
 
+        btnRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ManageActivity.this, AddRoomActivity.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 }

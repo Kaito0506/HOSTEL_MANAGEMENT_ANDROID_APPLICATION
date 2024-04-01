@@ -20,8 +20,13 @@ public class MainActivity extends AppCompatActivity {
 
         database = new DBHandler(MainActivity.this);
         btnSetting = findViewById(R.id.btnSetting);
-        Intent i = new Intent(MainActivity.this, ManageActivity.class);
-        startActivity(i);
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ManageActivity.class);
+                startActivity(i);
+            }
+        });
 
 
     }

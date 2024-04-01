@@ -19,17 +19,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createRoomType = "CREATE TABLE ROOMTYPE(" +
-                "id INTEGER primary key autoincrement, " +
-                "name TEXT not null, " +
-                "price MONEY not null)";
-
         String createRoom = "CREATE TABLE ROOM ( " +
                 "id INTEGER primary key autoincrement," +
-                "nane TEXT not null," +
+                "name TEXT not null," +
                 "status INTEGER not null," +
-                "type_id INTEGER," +
-                "FOREIGN KEY (type_id) REFERENCES ROOMTYPE(id))";
+                "type TEXT not null,"  +
+                "price MONEY not null)";
 
         String createProduct = "CREATE TABLE PRODUCT ( " +
                 "id INTEGER primary key autoincrement," +
@@ -53,7 +48,6 @@ public class DBHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY (product_id) REFERENCES PRODUCT(id))";
 
         try{
-            db.execSQL(createRoomType);
             db.execSQL(createRoom);
             db.execSQL(createProduct);
             db.execSQL(createBill);
@@ -71,18 +65,19 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS BILLDETAIL");
         db.execSQL("DROP TABLE IF EXISTS BILL");
-        db.execSQL("DROP TABLE IF EXISTS ROOMTYPE");
         db.execSQL("DROP TABLE IF EXISTS ROOM");
         db.execSQL("DROP TABLE IF EXISTS PRODUCT");
         onCreate(db);
     }
 
-    public void addRoomType(String n, int p){
+    public void addRoom(String n, String type, double price){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", n);
-        values.put("price", p);
-        db.insert("ROOMTYPE", null, values);
+        values.put("price", price);
+        values.put("status", 0);
+        values.put("type", type);
+        db.insert("ROOM", null, values);
         //db.close();
 
     }
