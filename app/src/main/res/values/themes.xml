@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.HOSTEL_MANAGEMENT" parent="Base.Theme.HOSTEL_MANAGEMENT" />
+
+
 </resources>

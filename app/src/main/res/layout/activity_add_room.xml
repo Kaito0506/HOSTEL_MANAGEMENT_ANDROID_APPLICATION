@@ -11,14 +11,14 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:background="@color/navigation_bar"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btnBackRoom"
-            android:layout_width="83dp"
-            android:layout_height="86dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:background="@color/navigation_bar"
@@ -27,14 +27,13 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="401dp"
-            android:layout_height="81dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
-            android:text="Room"
-            android:textSize="45dp"
-            android:textStyle="bold" />
+            android:text="Add room"
+            android:theme="@style/NavigatorText" />
 
     </LinearLayout>
     <LinearLayout
@@ -47,17 +46,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="25dp"
             android:text="Room name"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:theme="@style/TitleText" />
 
         <EditText
             android:id="@+id/txtRoomName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:textSize="30dp"
+            android:theme="@style/TextBox"
             android:background="@drawable/text_border"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -74,10 +73,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="25dp"
             android:text="Type"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:theme="@style/TitleText" />
 
         <Spinner
             android:id="@+id/spinnerType"
@@ -86,7 +84,7 @@
             android:layout_margin="15dp"
             android:layout_marginEnd="15dp"
             android:background="@drawable/text_border"
-            android:textSize="30dp"/>
+            android:textSize="22sp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -98,22 +96,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="15dp"
             android:text="Price"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:theme="@style/TitleText" />
 
         <EditText
             android:id="@+id/txtRoomPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:textSize="30dp"
             android:background="@drawable/text_border"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:hint="Type room name"
-            android:inputType="number"/>
+            android:hint="Type room price"
+            android:inputType="number"
+            android:theme="@style/TextBox"/>
 
     </LinearLayout>
 
@@ -131,8 +129,7 @@
             android:backgroundTint="@color/navigation_bar"
             app:cornerRadius="10dp"
             android:text="Cancel"
-            android:textStyle="bold"
-            android:textSize="30dp"
+            android:theme="@style/ButtonText"
             android:layout_marginEnd="15dp"
             android:textColor="@color/black"
             />
@@ -144,8 +141,7 @@
             android:backgroundTint="#6CEC28"
             app:cornerRadius="10dp"
             android:text="Add"
-            android:textStyle="bold"
-            android:textSize="30dp"
+            android:theme="@style/ButtonText"
             android:layout_marginStart="15dp"
             android:textColor="@color/black"
             />

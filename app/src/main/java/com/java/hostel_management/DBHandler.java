@@ -4,10 +4,13 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
     private static final String dbName = "HOSTEL_MANAGEMENT";
@@ -21,7 +24,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createRoom = "CREATE TABLE ROOM ( " +
                 "id INTEGER primary key autoincrement," +
-                "name TEXT not null," +
+                "name TEXT not null unique," +
                 "status INTEGER not null," +
                 "type TEXT not null,"  +
                 "price MONEY not null)";
@@ -70,15 +73,56 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addRoom(String n, String type, double price){
+    public boolean addRoom(String n, String type, double price){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("name", n);
-        values.put("price", price);
-        values.put("status", 0);
-        values.put("type", type);
-        db.insert("ROOM", null, values);
-        //db.close();
 
+        // Check if the room with the same name already exists
+        Cursor cursor = db.rawQuery("SELECT * FROM ROOM WHERE name=?", new String[]{n});
+
+        if (cursor.getCount() > 0) {
+            // Room with the same name already exists, handle the situation (e.g., show a message)
+            Log.d(TAG, "addRoom: Room with the same name already exists");
+            cursor.close();
+            return false;
+        } else {
+            // Room with the given name doesn't exist, proceed with insertion
+            try {
+                values.put("name", n);
+                values.put("price", price);
+                values.put("status", 0);
+                values.put("type", type);
+                db.insert("ROOM", null, values);
+                Log.d(TAG, "addRoom: success!!!!!!!!!!!!!!!!!!!!!");
+                cursor.close();
+                return true;
+            } catch (Exception e) {
+                Log.d(TAG, "addRoom: failed!!!!!!!!!!!!!!!!!!!!!");
+                cursor.close();
+                return false;
+            }
+        }
     }
+
+    public ArrayList<ModelRoom> viewAllRoom(){
+        ArrayList<ModelRoom> rooms = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursorRooms = db.rawQuery("select * from ROOM", null);
+        // move to first item
+        if(cursorRooms.moveToFirst()){
+            do{
+                rooms.add(new ModelRoom(
+                   cursorRooms.getInt(0),
+                   cursorRooms.getString(1),
+                   cursorRooms.getInt(2),
+                   cursorRooms.getString(3),
+                   cursorRooms.getDouble(4)
+                ));
+            }while(cursorRooms.moveToNext());
+        }
+        cursorRooms.close();
+        return rooms;
+    }
+
+
 }

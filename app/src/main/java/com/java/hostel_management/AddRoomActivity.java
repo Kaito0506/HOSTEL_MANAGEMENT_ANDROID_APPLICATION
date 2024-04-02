@@ -2,12 +2,14 @@ package com.java.hostel_management;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
@@ -22,7 +24,9 @@ public class AddRoomActivity extends AppCompatActivity {
     Spinner spinnerType;
     String selectedType;
     MaterialButton add, cancel;
+    ImageButton btnBack;
     DBHandler database = new DBHandler(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,7 @@ public class AddRoomActivity extends AppCompatActivity {
 
         add = findViewById(R.id.btnAddRoom);
         cancel = findViewById(R.id.btnCancelRoom);
-
+        btnBack = findViewById(R.id.btnBackRoom);
         spinnerType = findViewById(R.id.spinnerType);
         ArrayList<String> types = new ArrayList<>();
         types.add("Normal");
@@ -67,8 +71,14 @@ public class AddRoomActivity extends AppCompatActivity {
                     try {
                         String n = name.getText().toString();
                         Double p = Double.parseDouble(price.getText().toString());
-                        database.addRoom(n, selectedType, p);
-                        Toast.makeText(AddRoomActivity.this, "Add room success", Toast.LENGTH_SHORT).show();
+                        if(database.addRoom(n, selectedType, p)){
+                            clearData();
+                            Toast.makeText(AddRoomActivity.this, "Add room success", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(AddRoomActivity.this, "Add room failed", Toast.LENGTH_SHORT).show();
+                            clearData();
+                        }
                     }catch(Exception e )
                     {
                         Toast.makeText(AddRoomActivity.this, "Add room failed", Toast.LENGTH_SHORT).show();
@@ -77,6 +87,27 @@ public class AddRoomActivity extends AppCompatActivity {
             }
         });
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearData();
+            }
+        });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AddRoomActivity.this, ViewRoomActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+    }
+
+    private void clearData(){
+        name.setText("");
+        spinnerType.setSelection(0);
+        price.setText("");
     }
 }

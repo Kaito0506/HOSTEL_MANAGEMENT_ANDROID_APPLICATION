@@ -14,7 +14,7 @@ public class ManageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
 
-        btnBack = findViewById(R.id.btnBackManage);
+        btnBack = findViewById(R.id.btnBackMain);
         btnRoom = findViewById(R.id.btnRoomMange);
         btnService = findViewById(R.id.btnServiceManage);
 
@@ -29,7 +29,7 @@ public class ManageActivity extends AppCompatActivity {
         btnRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ManageActivity.this, AddRoomActivity.class);
+                Intent i = new Intent(ManageActivity.this, ViewRoomActivity.class);
                 startActivity(i);
             }
         });

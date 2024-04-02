@@ -3,5 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="navigation_bar">#FF5722</color>
-
+    <color name="blue">#FF0000FF</color> <!-- Blue color -->
+    <color name="green">#FF00FF00</color> <!-- Green color -->
+    <color name="red">#FFFF0000</color> <!-- Red color -->
+    <color name="yellow">#FFFFFF00</color> <!-- Yellow color -->
+    <color name="orange">#FFFFA500</color> <!-- Orange color -->
+    <color name="purple">#FF800080</color> <!-- Purple color -->
+    <color name="cyan">#FF00FFFF</color> <!-- Cyan color -->
+    <color name="magenta">#FFFF00FF</color> <!-- Magenta color -->
+    <!-- You can define more colors here -->
 </resources>
