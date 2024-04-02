@@ -15,6 +15,9 @@
         android:theme="@style/Theme.HOSTEL_MANAGEMENT"
         tools:targetApi="31">
         <activity
+            android:name=".UpdateRoom"
+            android:exported="false" />
+        <activity
             android:name=".ViewRoomActivity"
             android:exported="false" />
         <activity

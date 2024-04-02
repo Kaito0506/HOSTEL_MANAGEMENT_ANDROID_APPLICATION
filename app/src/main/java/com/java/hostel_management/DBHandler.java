@@ -124,5 +124,34 @@ public class DBHandler extends SQLiteOpenHelper {
         return rooms;
     }
 
+    public boolean deleteRoom(int id){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete("ROOM", "id=?", new String[]{String.valueOf(id)});
+            Log.d(TAG, "deleteRoom: success");
+            return true;
+        }catch (Exception e){
+            Log.d(TAG, "deleteRoom: failded");
+            return false;
+        }
+    }
+
+    public boolean UpdateRoom(int id, String n, String t, Double p){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            ContentValues values = new ContentValues();
+            values.put("name", n);
+            values.put("price", p);
+            values.put("type", t);
+            int rowsAffect = db.update("ROOM", values, "id=?", new String[]{String.valueOf(id)});
+            Log.d(TAG, "UpdateRoom: success");
+            db.close();
+            return rowsAffect>0;
+        }catch (Exception e){
+            Log.d(TAG, "UpdateRoom: failed");
+            return false;
+        }
+    }
+
 
 }

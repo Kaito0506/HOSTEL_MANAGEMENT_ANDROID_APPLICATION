@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layoutDescription="@xml/activity_add_room_scene"
-    tools:context=".AddRoomActivity">
+    tools:context=".UpdateRoom">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -32,7 +32,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
-            android:text="Add room"
+            android:text="Update room"
             android:theme="@style/NavigatorText" />
 
     </LinearLayout>
@@ -52,7 +52,7 @@
             android:theme="@style/TitleText" />
 
         <EditText
-            android:id="@+id/txtRoomName"
+            android:id="@+id/txtRoomNameUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -78,7 +78,7 @@
             android:theme="@style/TitleText" />
 
         <Spinner
-            android:id="@+id/spinnerType"
+            android:id="@+id/spinnerTypeUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -102,7 +102,7 @@
             android:theme="@style/TitleText" />
 
         <EditText
-            android:id="@+id/txtRoomPrice"
+            android:id="@+id/txtRoomPriceUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -123,24 +123,24 @@
         android:layout_gravity="center">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCancelRoom"
+            android:id="@+id/btnResetRoom"
             android:layout_width="150dp"
             android:layout_height="75dp"
             android:backgroundTint="@color/navigation_bar"
             app:cornerRadius="10dp"
-            android:text="Cancel"
+            android:text="Reset"
             android:theme="@style/ButtonText"
             android:layout_marginEnd="15dp"
             android:textColor="@color/black"
             />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddRoom"
+            android:id="@+id/btnUpdateRoom"
             android:layout_width="150dp"
             android:layout_height="75dp"
             android:backgroundTint="#6CEC28"
             app:cornerRadius="10dp"
-            android:text="Add"
+            android:text="Update"
             android:theme="@style/ButtonText"
             android:layout_marginStart="15dp"
             android:textColor="@color/black"

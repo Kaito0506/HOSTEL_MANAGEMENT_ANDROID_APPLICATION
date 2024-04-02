@@ -1,9 +1,13 @@
 package com.java.hostel_management;
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -17,9 +21,11 @@ public class RoomRVAdapter extends RecyclerView.Adapter<RoomRVAdapter.ViewHolder
     public ArrayList<ModelRoom> roomList;
     private Context context;
 
-    public NumberFormat VNDformater = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+    public static NumberFormat VNDformater = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
-    public NumberFormat USformater = NumberFormat.getCurrencyInstance(Locale.US);
+    public static NumberFormat USformater = NumberFormat.getCurrencyInstance(Locale.US);
+    public static int selectedRoomId, selectedPosition;
+    public static ModelRoom selectedRoom;
 
     public RoomRVAdapter(ArrayList<ModelRoom> l, Context c){
         this.roomList = l;
@@ -57,8 +63,8 @@ public class RoomRVAdapter extends RecyclerView.Adapter<RoomRVAdapter.ViewHolder
     public int getItemCount() {
         return roomList.size();
     }
-
-    public class ViewHolder extends  RecyclerView.ViewHolder{
+    private static final String TAG = "NoteRVAdapter";
+    public class ViewHolder extends  RecyclerView.ViewHolder implements View.OnLongClickListener{
         private TextView roomName, roomType, roomStatus, roomPrice;
         private int id;
         public ViewHolder(@NonNull View itemView) {
@@ -67,8 +73,18 @@ public class RoomRVAdapter extends RecyclerView.Adapter<RoomRVAdapter.ViewHolder
             roomStatus = itemView.findViewById(R.id.txtShowStatus);
             roomType = itemView.findViewById(R.id.txtShowType);
             roomPrice = itemView.findViewById(R.id.txtShowPrice);
-
-
+            // add long click listener
+            itemView.setOnLongClickListener(this);
         }
+        @Override
+        public boolean onLongClick(View v) {
+
+            selectedPosition = getAdapterPosition();
+            selectedRoom = roomList.get(selectedPosition);
+            selectedRoomId = selectedRoom.getId();
+            Log.d(TAG, "onLongClick: " + selectedRoomId);
+            return false;
+        }
+
     }
 }
