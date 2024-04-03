@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+    <LinearLayout
+        android:id="@+id/layoutGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#8AAAEE">
+
+
+        <TextView
+            android:id="@+id/txtRoomNameGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:theme="@style/TitleText"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/txtRoomTypeGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Type"
+            android:theme="@style/TextBox"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/txtRoomPriceGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100000"
+            android:theme="@style/TextBox"
+            android:textAlignment="center"
+            android:textStyle="italic"/>
+
+        <ImageButton
+            android:id="@+id/btnCheckin"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/checkin"
+            android:background="#599CC1"/>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

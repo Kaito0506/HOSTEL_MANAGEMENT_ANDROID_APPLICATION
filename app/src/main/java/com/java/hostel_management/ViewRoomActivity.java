@@ -43,10 +43,10 @@ public class ViewRoomActivity extends AppCompatActivity {
 
         roomRVAdapter = new RoomRVAdapter(roomList, this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(ViewRoomActivity.this, RecyclerView.VERTICAL, false);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(ViewRoomActivity.this, RecyclerView.VERTICAL, false);
 
         roomRV = findViewById(R.id.RVListRoom);
-        roomRV.setLayoutManager(layoutManager);
+        //roomRV.setLayoutManager(layoutManager);
         roomRV.setAdapter(roomRVAdapter);
 
         btnBack.setOnClickListener(new View.OnClickListener() {

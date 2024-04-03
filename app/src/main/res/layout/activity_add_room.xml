@@ -110,7 +110,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="Type room price"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:theme="@style/TextBox"/>
 
     </LinearLayout>
@@ -129,9 +129,9 @@
             android:backgroundTint="@color/navigation_bar"
             app:cornerRadius="10dp"
             android:text="Cancel"
+            android:layout_marginRight="15dp"
             android:theme="@style/ButtonText"
-            android:layout_marginEnd="15dp"
-            android:textColor="@color/black"
+
             />
 
         <com.google.android.material.button.MaterialButton
@@ -142,8 +142,7 @@
             app:cornerRadius="10dp"
             android:text="Add"
             android:theme="@style/ButtonText"
-            android:layout_marginStart="15dp"
-            android:textColor="@color/black"
+            android:layout_marginLeft="15dp"
             />
 
     </LinearLayout>

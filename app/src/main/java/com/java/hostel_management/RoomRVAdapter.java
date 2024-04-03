@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class RoomRVAdapter extends RecyclerView.Adapter<RoomRVAdapter.ViewHolder
 
         // we can use curency of CND or $
         VNDformater.setMaximumFractionDigits(0);
-        USformater.setMaximumFractionDigits(0);
+        //USformater.setMaximumFractionDigits(0);
 
         ModelRoom room = roomList.get(position);
         holder.roomName.setText( room.getName());
@@ -66,6 +67,7 @@ public class RoomRVAdapter extends RecyclerView.Adapter<RoomRVAdapter.ViewHolder
     private static final String TAG = "NoteRVAdapter";
     public class ViewHolder extends  RecyclerView.ViewHolder implements View.OnLongClickListener{
         private TextView roomName, roomType, roomStatus, roomPrice;
+        private Button btnTest;
         private int id;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,8 +75,10 @@ public class RoomRVAdapter extends RecyclerView.Adapter<RoomRVAdapter.ViewHolder
             roomStatus = itemView.findViewById(R.id.txtShowStatus);
             roomType = itemView.findViewById(R.id.txtShowType);
             roomPrice = itemView.findViewById(R.id.txtShowPrice);
+            //btnTest = itemView.findViewById(R.id.buttonTest);
             // add long click listener
             itemView.setOnLongClickListener(this);
+
         }
         @Override
         public boolean onLongClick(View v) {
