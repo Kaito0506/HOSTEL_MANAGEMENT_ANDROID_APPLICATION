@@ -35,5 +35,14 @@ public class ManageActivity extends AppCompatActivity {
         });
 
 
+        btnService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ManageActivity.this, ViewServiceActivity.class);
+                startActivity(i);
+            }
+        });
+
+
     }
 }

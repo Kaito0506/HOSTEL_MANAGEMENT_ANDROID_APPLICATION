@@ -1,6 +1,7 @@
 package com.java.hostel_management;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ public class RoomRVAdapterGrid extends  RecyclerView.Adapter<RoomRVAdapterGrid.V
         this.roomList = l;
         this.context = c;
     }
+    public static int selectedPosition;
+    public static ModelRoom selectedRoom;
 
     @NonNull
     @Override
@@ -49,7 +52,7 @@ public class RoomRVAdapterGrid extends  RecyclerView.Adapter<RoomRVAdapterGrid.V
     public int getItemCount() {
         return roomList.size();
     }
-
+    private static String TAG;
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView name, type, price;
         private int id, status;
@@ -62,6 +65,15 @@ public class RoomRVAdapterGrid extends  RecyclerView.Adapter<RoomRVAdapterGrid.V
             price = itemView.findViewById(R.id.txtRoomPriceGrid);
             btnCheckIn = itemView.findViewById(R.id.btnCheckin);
             layout = itemView.findViewById(R.id.layoutGrid);
+
+            btnCheckIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedPosition = getAdapterPosition();
+                    selectedRoom = roomList.get(selectedPosition);
+                    Log.d(TAG, "onClick: " + selectedPosition);
+                }
+            });
         }
     }
 

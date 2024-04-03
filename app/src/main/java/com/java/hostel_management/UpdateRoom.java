@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ public class UpdateRoom extends AppCompatActivity {
     EditText name, price;
     Spinner spinner;
     MaterialButton update, reset;
+    ImageButton btnback;
     private DBHandler database = new DBHandler(this);
     String type;
     @Override
@@ -29,18 +31,19 @@ public class UpdateRoom extends AppCompatActivity {
 
         update = findViewById(R.id.btnUpdateRoom);
         reset = findViewById(R.id.btnResetRoom);
+        btnback = findViewById(R.id.btnBackRoom);
 
         // get extra from intent
         int id = getIntent().getIntExtra("id", 0);
         String oName = getIntent().getStringExtra("name");
         Double oPrice = getIntent().getDoubleExtra("price", 0);
         int typeid = getIntent().getIntExtra("type", 0);
-        DecimalFormat decimalFormat = new DecimalFormat("#");
+        //DecimalFormat decimalFormat = new DecimalFormat("#"); // define 0 decimal for VND
 
         name = findViewById(R.id.txtRoomNameUpdate);
         name.setText(oName);
         price = findViewById(R.id.txtRoomPriceUpdate);
-        price.setText(decimalFormat.format(oPrice));
+        price.setText(String.valueOf(oPrice));
         spinner = findViewById(R.id.spinnerTypeUpdate);
 
         ArrayList<String> types = new ArrayList<>();
@@ -70,7 +73,7 @@ public class UpdateRoom extends AppCompatActivity {
             public void onClick(View v) {
                 name.setText(oName);
                 spinner.setSelection(typeid);
-                price.setText(decimalFormat.format(oPrice));
+                price.setText(String.valueOf(oPrice));
             }
         });
 
@@ -86,6 +89,14 @@ public class UpdateRoom extends AppCompatActivity {
                 }else {
                     Toast.makeText(UpdateRoom.this, "Update failed", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btnback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UpdateRoom.this, ViewRoomActivity.class);
+                startActivity(i);
             }
         });
 

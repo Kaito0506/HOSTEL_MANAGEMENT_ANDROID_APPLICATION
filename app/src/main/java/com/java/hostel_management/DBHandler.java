@@ -29,9 +29,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 "type TEXT not null,"  +
                 "price MONEY not null)";
 
-        String createProduct = "CREATE TABLE PRODUCT ( " +
+        String createProduct = "CREATE TABLE SERVICE ( " +
                 "id INTEGER primary key autoincrement," +
-                "nane TEXT not null," +
+                "name TEXT not null," +
                 "price MONEY not null)";
 
         String createBill = "CREATE TABLE BILL ( " +
@@ -46,9 +46,9 @@ public class DBHandler extends SQLiteOpenHelper {
         String createBillDetail = "CREATE TABLE BILLDETAIL ( " +
                 "id INTEGER primary key autoincrement," +
                 "bill_id INTEGER," +
-                "product_id INTEGER," +
+                "service_id INTEGER," +
                 "FOREIGN KEY (bill_id) REFERENCES BILL(id)," +
-                "FOREIGN KEY (product_id) REFERENCES PRODUCT(id))";
+                "FOREIGN KEY (service_id) REFERENCES SERVICE(id))";
 
         try{
             db.execSQL(createRoom);
@@ -69,6 +69,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS BILLDETAIL");
         db.execSQL("DROP TABLE IF EXISTS BILL");
         db.execSQL("DROP TABLE IF EXISTS ROOM");
+        db.execSQL("DROP TABLE IF EXISTS SERVICE");
         db.execSQL("DROP TABLE IF EXISTS PRODUCT");
         onCreate(db);
     }
@@ -149,6 +150,81 @@ public class DBHandler extends SQLiteOpenHelper {
             return rowsAffect>0;
         }catch (Exception e){
             Log.d(TAG, "UpdateRoom: failed");
+            return false;
+        }
+    }
+    /////////////////////
+    public boolean addService(String n, double price){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        // Check if the room with the same name already exists
+        Cursor cursor = db.rawQuery("SELECT * FROM SERVICE WHERE name=?", new String[]{n});
+
+        if (cursor.getCount() > 0) {
+            // Room with the same name already exists, handle the situation (e.g., show a message)
+            Log.d(TAG, "addService: rvice with the same name already exists");
+            cursor.close();
+            return false;
+        } else {
+            // Room with the given name doesn't exist, proceed with insertion
+            try {
+                values.put("name", n);
+                values.put("price", price);
+                db.insert("SERVICE", null, values);
+                Log.d(TAG, "addService: success!!!!!!!!!!!!!!!!!!!!!");
+                cursor.close();
+                return true;
+            } catch (Exception e) {
+                Log.d(TAG, "addService: failed!!!!!!!!!!!!!!!!!!!!!");
+                cursor.close();
+                return false;
+            }
+        }
+    }
+
+    ///////////
+    public ArrayList<ModelService> viewAllService(){
+        ArrayList<ModelService> services = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursorServices = db.rawQuery("select * from SERVICE", null);
+        // move to first item
+        if(cursorServices.moveToFirst()){
+            do{
+                services.add(new ModelService(
+                        cursorServices.getInt(0),
+                        cursorServices.getString(1),
+                        cursorServices.getDouble(2)
+                ));
+            }while(cursorServices.moveToNext());
+        }
+        cursorServices.close();
+        return services;
+    }
+    /////////////////////////////////
+    public boolean deleteService(int id){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete("SERVICE", "id=?", new String[]{String.valueOf(id)});
+            Log.d(TAG, "deleteService: success");
+            return true;
+        }catch (Exception e){
+            Log.d(TAG, "deleteService: failded");
+            return false;
+        }
+    }
+    ////////////////////////////////////
+    public boolean UpdateService(int id, String n,Double p){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            ContentValues values = new ContentValues();
+            values.put("name", n);
+            values.put("price", p);
+            int rowsAffect = db.update("SERVICE", values, "id=?", new String[]{String.valueOf(id)});
+            Log.d(TAG, "UpdateServie: success");
+            db.close();
+            return rowsAffect>0;
+        }catch (Exception e){
+            Log.d(TAG, "UpdateService: failed");
             return false;
         }
     }
