@@ -15,6 +15,9 @@
         android:theme="@style/Theme.HOSTEL_MANAGEMENT"
         tools:targetApi="31">
         <activity
+            android:name=".CheckInActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdateService"
             android:exported="false" />
         <activity

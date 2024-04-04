@@ -1,5 +1,4 @@
-package com.java.hostel_management;
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+package com.java.hostel_management.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.java.hostel_management.R;
+import com.java.hostel_management.model.ModelRoom;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

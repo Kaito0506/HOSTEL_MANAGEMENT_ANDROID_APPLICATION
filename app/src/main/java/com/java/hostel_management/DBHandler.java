@@ -8,8 +8,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.java.hostel_management.model.ModelRoom;
+import com.java.hostel_management.model.ModelService;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -37,7 +40,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String createBill = "CREATE TABLE BILL ( " +
                 "id INTEGER primary key autoincrement," +
                 "room_id INTEGER ," +
-                "nane TEXT not null," +
+                "cus_name TEXT not null," +
                 "checkIn DATETIME not null," +
                 "checkOut DATETIME," +
                 "total MONEY," +
@@ -118,6 +121,26 @@ public class DBHandler extends SQLiteOpenHelper {
                    cursorRooms.getInt(2),
                    cursorRooms.getString(3),
                    cursorRooms.getDouble(4)
+                ));
+            }while(cursorRooms.moveToNext());
+        }
+        cursorRooms.close();
+        return rooms;
+    }
+
+    public ArrayList<ModelRoom> viewAvailableRoom(int status){
+        ArrayList<ModelRoom> rooms = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursorRooms = db.rawQuery("select * from ROOM where status=" + status, null);
+        // move to first item
+        if(cursorRooms.moveToFirst()){
+            do{
+                rooms.add(new ModelRoom(
+                        cursorRooms.getInt(0),
+                        cursorRooms.getString(1),
+                        cursorRooms.getInt(2),
+                        cursorRooms.getString(3),
+                        cursorRooms.getDouble(4)
                 ));
             }while(cursorRooms.moveToNext());
         }
@@ -228,6 +251,29 @@ public class DBHandler extends SQLiteOpenHelper {
             return false;
         }
     }
+    /////////////////////////
+    public boolean addBill(int room_id, String cus_name, String checkIn, String checkOut){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        ContentValues valueUpdate = new ContentValues();
+        try {
+            values.put("room_id", room_id);
+            values.put("cus_name", cus_name);
+            values.put("total", 0);
+            values.put("checkin", checkIn);
+            // Only put checkOut in ContentValues if it's not null
+            if (checkOut != null) {
+                values.put("checkout", checkOut);
+            }
+            db.insert("BILL", null, values);
+            // update room status
+            valueUpdate.put("status", 1);
+            db.update("ROOM", valueUpdate, "id=?", new String[]{String.valueOf(room_id)});
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
 
+    };
 
 }

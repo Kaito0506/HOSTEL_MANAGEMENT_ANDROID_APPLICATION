@@ -12,9 +12,11 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.java.hostel_management.adapter.ServiceRVAdapter;
+import com.java.hostel_management.model.ModelService;
 
 import java.util.ArrayList;
 
@@ -43,7 +45,7 @@ public class ViewServiceActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ViewServiceActivity.this, ManageActivity.class);
+                Intent i = new Intent(ViewServiceActivity.this, MainActivity.class);
                 startActivity(i);
             }
         });

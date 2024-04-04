@@ -2,25 +2,22 @@ package com.java.hostel_management;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
+import com.java.hostel_management.adapter.RoomRVAdapter;
+import com.java.hostel_management.model.ModelRoom;
 
-import java.net.Inet4Address;
 import java.util.ArrayList;
 
 public class ViewRoomActivity extends AppCompatActivity {
@@ -52,7 +49,7 @@ public class ViewRoomActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ViewRoomActivity.this, ManageActivity.class);
+                Intent i = new Intent(ViewRoomActivity.this, MainActivity.class);
                 startActivity(i);
             }
         });

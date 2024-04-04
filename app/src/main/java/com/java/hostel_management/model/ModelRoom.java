@@ -1,4 +1,4 @@
-package com.java.hostel_management;
+package com.java.hostel_management.model;
 
 public class ModelRoom {
     private int id;

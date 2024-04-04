@@ -1,6 +1,7 @@
-package com.java.hostel_management;
+package com.java.hostel_management.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.java.hostel_management.CheckInActivity;
+import com.java.hostel_management.MainActivity;
+import com.java.hostel_management.R;
+import com.java.hostel_management.model.ModelRoom;
 
 import java.util.ArrayList;
 
@@ -72,6 +78,11 @@ public class RoomRVAdapterGrid extends  RecyclerView.Adapter<RoomRVAdapterGrid.V
                     selectedPosition = getAdapterPosition();
                     selectedRoom = roomList.get(selectedPosition);
                     Log.d(TAG, "onClick: " + selectedPosition);
+                    Intent i = new Intent(context, CheckInActivity.class);
+                    i.putExtra("room_id", selectedRoom.getId());
+                    i.putExtra("room_name", selectedRoom.getName());
+                    context.startActivity(i);
+
                 }
             });
         }
