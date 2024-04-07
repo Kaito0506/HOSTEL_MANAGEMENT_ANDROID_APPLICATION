@@ -83,6 +83,8 @@ public class ViewServiceActivity extends AppCompatActivity {
                                 serviceList.remove(position);
                                 adapter.notifyDataSetChanged();
                                 Toast.makeText(ViewServiceActivity.this, "Delete service successfully", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(ViewServiceActivity.this, "Delete failed, service is in unpaid bill", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).setNegativeButton("No", null).show();

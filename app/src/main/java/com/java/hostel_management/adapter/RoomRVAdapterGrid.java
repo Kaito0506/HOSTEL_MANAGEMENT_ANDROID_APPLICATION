@@ -59,7 +59,7 @@ public class RoomRVAdapterGrid extends  RecyclerView.Adapter<RoomRVAdapterGrid.V
         return roomList.size();
     }
     private static String TAG;
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private TextView name, type, price;
         private int id, status;
         ImageButton btnCheckIn;
@@ -71,7 +71,7 @@ public class RoomRVAdapterGrid extends  RecyclerView.Adapter<RoomRVAdapterGrid.V
             price = itemView.findViewById(R.id.txtRoomPriceGrid);
             btnCheckIn = itemView.findViewById(R.id.btnCheckin);
             layout = itemView.findViewById(R.id.layoutGrid);
-
+            itemView.setOnLongClickListener(this);
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,6 +85,14 @@ public class RoomRVAdapterGrid extends  RecyclerView.Adapter<RoomRVAdapterGrid.V
 
                 }
             });
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            selectedPosition = getAdapterPosition();
+            selectedRoom = roomList.get(selectedPosition);
+            Log.d(TAG, "onClick: " + selectedPosition);
+            return false;
         }
     }
 

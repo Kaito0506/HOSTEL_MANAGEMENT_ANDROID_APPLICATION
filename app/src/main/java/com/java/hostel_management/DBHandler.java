@@ -8,7 +8,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.java.hostel_management.model.ModelBill;
 import com.java.hostel_management.model.ModelRoom;
 import com.java.hostel_management.model.ModelService;
 
@@ -43,13 +45,15 @@ public class DBHandler extends SQLiteOpenHelper {
                 "cus_name TEXT not null," +
                 "checkIn DATETIME not null," +
                 "checkOut DATETIME," +
-                "total MONEY," +
+                "total MONEY default 0," +
+                "isPaid int default 0," +
                 "FOREIGN KEY (room_id) REFERENCES ROOM(id))";
 
         String createBillDetail = "CREATE TABLE BILLDETAIL ( " +
                 "id INTEGER primary key autoincrement," +
                 "bill_id INTEGER," +
                 "service_id INTEGER," +
+                "quantity int not null," +
                 "FOREIGN KEY (bill_id) REFERENCES BILL(id)," +
                 "FOREIGN KEY (service_id) REFERENCES SERVICE(id))";
 
@@ -225,15 +229,19 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     /////////////////////////////////
     public boolean deleteService(int id){
-        try{
-            SQLiteDatabase db = getWritableDatabase();
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursorService = db.rawQuery("SELECT service_id FROM BILLDETAIL where bill_id=?", new String[]{String.valueOf(id)});
+        if(cursorService.getCount()>0){
+            Log.d(TAG, "deleteService: service is in unpaid bill");
+                return false;
+        }
+        else {
             db.delete("SERVICE", "id=?", new String[]{String.valueOf(id)});
             Log.d(TAG, "deleteService: success");
             return true;
-        }catch (Exception e){
-            Log.d(TAG, "deleteService: failded");
-            return false;
         }
+
     }
     ////////////////////////////////////
     public boolean UpdateService(int id, String n,Double p){
@@ -252,7 +260,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
     /////////////////////////
-    public boolean addBill(int room_id, String cus_name, String checkIn, String checkOut){
+    public boolean addBill(int room_id, String cus_name, String checkIn){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         ContentValues valueUpdate = new ContentValues();
@@ -262,9 +270,7 @@ public class DBHandler extends SQLiteOpenHelper {
             values.put("total", 0);
             values.put("checkin", checkIn);
             // Only put checkOut in ContentValues if it's not null
-            if (checkOut != null) {
-                values.put("checkout", checkOut);
-            }
+
             db.insert("BILL", null, values);
             // update room status
             valueUpdate.put("status", 1);
@@ -275,5 +281,46 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
     };
+
+    //////////
+    public boolean addBillDetail(int bill_id, int service_id,  int quantity){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        ContentValues valueUpdate = new ContentValues();
+        try {
+            values.put("bill_id", bill_id);
+            values.put("service_id", service_id);
+            values.put("quantity", quantity);
+            db.insert("BILLDETAIL", null, values);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    };
+
+    public ModelBill getUncheckOutBill(int room_id){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursorBill = db.rawQuery("SELECT * FROM BILL WHERE isPaid=0 and  room_id=?", new String[]{String.valueOf(room_id)});
+
+        // Check if cursor has data
+        if(cursorBill.moveToFirst()) {
+            ModelBill bill = new ModelBill(
+                    cursorBill.getInt(0),
+                    cursorBill.getInt(1),
+                    cursorBill.getString(2),
+                    cursorBill.getString(3),
+                    cursorBill.getString(4),
+                    cursorBill.getDouble(5),
+                    cursorBill.getInt(6)
+            );
+            cursorBill.close();
+            return bill;
+        } else {
+            // No data found, return null or handle the situation accordingly
+            cursorBill.close();
+            return null;
+        }
+    }
+
 
 }

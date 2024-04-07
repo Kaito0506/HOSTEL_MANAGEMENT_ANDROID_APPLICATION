@@ -1,15 +1,24 @@
 package com.java.hostel_management;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.java.hostel_management.adapter.RoomRVAdapterGrid;
 import com.java.hostel_management.model.ModelRoom;
@@ -54,18 +63,21 @@ public class MainActivity extends AppCompatActivity {
                         roomList = database.viewAllRoom();
                         roomRVAdapter = new RoomRVAdapterGrid(roomList, MainActivity.this);
                         roomRV.setAdapter(roomRVAdapter);
+                        registerForContextMenu(roomRV);
                         break;
                     }
                     case 1:{
                         roomList = database.viewAvailableRoom(0);
                         roomRVAdapter = new RoomRVAdapterGrid(roomList, MainActivity.this);
                         roomRV.setAdapter(roomRVAdapter);
+                        //registerForContextMenu(roomRV);
                         break;
                     }
                     case 2:{
                         roomList = database.viewAvailableRoom(1);
                         roomRVAdapter = new RoomRVAdapterGrid(roomList, MainActivity.this);
                         roomRV.setAdapter(roomRVAdapter);
+                        registerForContextMenu(roomRV);
                         break;
                     }
                 }
@@ -97,13 +109,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.checkout_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = RoomRVAdapterGrid.selectedPosition;
+        ModelRoom room = RoomRVAdapterGrid.selectedRoom;
+        if(room.getStatus()==0)
+        {
+            Toast.makeText(this, "Please choose a reserved room", Toast.LENGTH_SHORT).show();
+        }else {
+            if(item.getItemId()==R.id.menu_addService){
+                if(room.getStatus()!=0){
+                    Intent i = new Intent(MainActivity.this, AddBillDetail.class);
+                    i.putExtra("roomName", room.getName());
+                    i.putExtra("roomId", room.getId());
+                    startActivity(i);
+                }
+            }
+        }
 
 
 
 
-
-
-
-
+        return super.onContextItemSelected(item);
     }
 }
