@@ -22,7 +22,10 @@ public class ModelBill {
         this.room_id = room_id;
         this.isPaid = status;
     }
-    public void setROomId(int id) {
+
+
+
+    public void setRoomId(int id) {
         this.room_id = id;
     }
     public int getRoomId(){

@@ -134,6 +134,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             }
+            if(item.getItemId()==R.id.menu_Checkout){
+                Intent i = new Intent(MainActivity.this, CheckOutActivity.class);
+                i.putExtra("roomId", room.getId());
+                i.putExtra("roomName", room.getName());
+                i.putExtra("roomPrice", room.getPrice());
+                startActivity(i);
+
+            }
         }
 
 

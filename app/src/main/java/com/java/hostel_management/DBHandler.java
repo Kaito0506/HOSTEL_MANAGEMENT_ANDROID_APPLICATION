@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.java.hostel_management.model.ModelBill;
+import com.java.hostel_management.model.ModelBillDetail;
 import com.java.hostel_management.model.ModelRoom;
 import com.java.hostel_management.model.ModelService;
 
@@ -321,6 +322,69 @@ public class DBHandler extends SQLiteOpenHelper {
             return null;
         }
     }
+    ////////////////////////
+    public ModelService getService(int id){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM SERVICE WHERE id=?", new String[]{String.valueOf(id)});
+
+        // Check if cursor has data
+        if(cursor.moveToFirst()) {
+            ModelService bill = new ModelService(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getDouble(2)
+            );
+            cursor.close();
+            return bill;
+        } else {
+            // No data found, return null or handle the situation accordingly
+            cursor.close();
+            return null;
+        }
+    }
+    //////////////////////////
+    public ArrayList<ModelBillDetail> viewAllBillDetail(int bill_id){
+        ArrayList<ModelBillDetail> details = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from BILLDETAIL WHERE bill_id=?", new String[]{String.valueOf(bill_id)});
+        // move to first item
+        if(cursor.moveToFirst()){
+            do{
+                details.add(new ModelBillDetail(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getInt(3)
+                ));
+            }while(cursor.moveToNext());
+            Log.d(TAG, "viewAllBillDetail: !!!!!!!!!!!!!");
+        }
+        cursor.close();
+        return details;
+    }
+
+    public boolean checkout(int room_id, int bill_id, Double finalTotal) {
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            ContentValues roomValues = new ContentValues();
+            roomValues.put("status", 0); // 0 lets this room be available
+            int roomRow = db.update("ROOM", roomValues, "id=?", new String[]{String.valueOf(room_id)});
+
+            // Change bill status
+            ContentValues billValues = new ContentValues();
+            billValues.put("isPaid", 1); // it means paid
+            billValues.put("total", finalTotal);
+            int billRow = db.update("BILL", billValues, "id=?", new String[]{String.valueOf(bill_id)});
+
+            db.close();
+            // Return true if both roomRow and billRow are greater than 0, indicating successful updates
+            return (roomRow > 0 && billRow > 0);
+        } catch (Exception e) {
+            Log.d(TAG, "Checkout: failed");
+            return false;
+        }
+    }
+
 
 
 }

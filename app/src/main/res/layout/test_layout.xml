@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/showServiceName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Number nights"
+        android:gravity="left"
+        android:padding="3dp"
+        android:theme="@style/TextBox"/>
+    <TextView
+        android:id="@+id/showServiceQuantity"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="1"
+        android:padding="3dp"
+        android:layout_gravity="center"
+        android:theme="@style/TextBox"/>
+    <TextView
+        android:id="@+id/showServicePrice"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="$10"
+        android:padding="3dp"
+        android:layout_gravity="center"
+        android:theme="@style/TextBox"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/showServiceTotal"
+        android:text="$10"
+        android:padding="3dp"
+        android:layout_gravity="center"
+        android:theme="@style/TextBox"/>
+
+</LinearLayout>
