@@ -87,7 +87,7 @@ public class CheckOutActivity extends AppCompatActivity {
         ////////////////////////////////////////// calculate all price: room and services
         finalTotal = calculateDetailTotal(detailList);
         finalTotal += totalRoomPrice;
-        txtTotal.setText(ServiceRVAdapter.USformater.format(finalTotal));
+        txtTotal.setText("Total: " + ServiceRVAdapter.USformater.format( finalTotal));
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

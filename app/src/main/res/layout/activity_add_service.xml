@@ -89,7 +89,8 @@
             android:layout_marginEnd="15dp"
             android:hint="Type service price"
             android:inputType="numberDecimal"
-            android:theme="@style/TextBox"/>
+            android:theme="@style/TextBox"
+            android:text="1"/>
 
     </LinearLayout>
 

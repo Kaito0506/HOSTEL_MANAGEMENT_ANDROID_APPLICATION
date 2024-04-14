@@ -156,9 +156,16 @@ public class DBHandler extends SQLiteOpenHelper {
     public boolean deleteRoom(int id){
         try{
             SQLiteDatabase db = getWritableDatabase();
-            db.delete("ROOM", "id=?", new String[]{String.valueOf(id)});
-            Log.d(TAG, "deleteRoom: success");
-            return true;
+            Cursor room = db.rawQuery("SELECT * FROM ROOM WHERE STATUS=1 AND id=?", new String[]{String.valueOf(id)});
+            if(room.getCount()>0){
+                return false;
+            }
+            else{
+                db.delete("ROOM", "id=?", new String[]{String.valueOf(id)});
+                Log.d(TAG, "deleteRoom: success");
+                return true;
+            }
+
         }catch (Exception e){
             Log.d(TAG, "deleteRoom: failded");
             return false;
@@ -232,7 +239,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public boolean deleteService(int id){
 
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursorService = db.rawQuery("SELECT service_id FROM BILLDETAIL where bill_id=?", new String[]{String.valueOf(id)});
+        Cursor cursorService = db.rawQuery("select * from BILL b join BILLDETAIL bd on b.id = bd.bill_id where b.isPaid=0 and bd.service_id=? ", new String[]{String.valueOf(id)});
         if(cursorService.getCount()>0){
             Log.d(TAG, "deleteService: service is in unpaid bill");
                 return false;
