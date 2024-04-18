@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     DBHandler database;
-    ImageButton btnRoom, btnService;
+    ImageButton btnRoom, btnService, btnStatistic;
     Spinner spinner;
     private ArrayList<ModelRoom> roomList;
     private RecyclerView roomRV;
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         database = new DBHandler(MainActivity.this);
         btnRoom = findViewById(R.id.btnRoom);
         btnService = findViewById(R.id.btnService);
+        btnStatistic = findViewById(R.id.btnStatistic);
 
         ArrayList<String> filter = new ArrayList<>();
         filter.add("All");
@@ -104,6 +105,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, ViewRoomActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btnStatistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ShowStatistic.class);
                 startActivity(i);
             }
         });

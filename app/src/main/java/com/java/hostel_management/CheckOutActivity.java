@@ -98,7 +98,7 @@ public class CheckOutActivity extends AppCompatActivity {
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isSuccess = database.checkout(room_id, selectedBill.getId(), finalTotal);
+                boolean isSuccess = database.checkout(room_id, selectedBill.getId(), checkOut, finalTotal);
                 if(isSuccess){
                     Toast.makeText(CheckOutActivity.this, "Pay successfully", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(CheckOutActivity.this, MainActivity.class);

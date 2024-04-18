@@ -21,6 +21,7 @@ public class ModelBill {
         this.cus_name = cus_name;
         this.room_id = room_id;
         this.isPaid = status;
+        this.total = total;
     }
 
 

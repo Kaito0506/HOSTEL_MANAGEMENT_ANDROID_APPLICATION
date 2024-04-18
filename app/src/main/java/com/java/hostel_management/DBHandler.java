@@ -15,8 +15,11 @@ import com.java.hostel_management.model.ModelBillDetail;
 import com.java.hostel_management.model.ModelRoom;
 import com.java.hostel_management.model.ModelService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DBHandler extends SQLiteOpenHelper {
     private static final String dbName = "HOSTEL_MANAGEMENT";
@@ -370,7 +373,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return details;
     }
 
-    public boolean checkout(int room_id, int bill_id, Double finalTotal) {
+    public boolean checkout(int room_id, int bill_id, String checkOut, Double finalTotal) {
         SQLiteDatabase db = getWritableDatabase();
         try {
             ContentValues roomValues = new ContentValues();
@@ -381,6 +384,7 @@ public class DBHandler extends SQLiteOpenHelper {
             ContentValues billValues = new ContentValues();
             billValues.put("isPaid", 1); // it means paid
             billValues.put("total", finalTotal);
+            billValues.put("checkOut", checkOut);
             int billRow = db.update("BILL", billValues, "id=?", new String[]{String.valueOf(bill_id)});
 
             db.close();
@@ -391,6 +395,165 @@ public class DBHandler extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public ArrayList<ModelBill> viewAllBill(){
+        ArrayList<ModelBill> bills = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from BILL", null);
+        // move to first item
+        if(cursor.moveToFirst()){
+            do{
+                Log.d(TAG, "Time: "+cursor.getString(3));
+                bills.add(new ModelBill(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getDouble(5),
+                        cursor.getInt(6)
+                ));
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return bills;
+    }
+
+    public String getRoomFromBill(int room_id){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name FROM ROOM WHERE id=?", new String[]{String.valueOf(room_id)});
+
+        String roomName = null;
+        if (cursor.moveToFirst()) { // Move cursor to the first row
+            roomName = cursor.getString(0); // Get data from the cursor
+        }
+
+        cursor.close(); // Close the cursor after you're done with it
+
+        return roomName;
+    }
+
+
+    public ArrayList<ModelBill> getBillsByfilter(int month, int year) {
+        ArrayList<ModelBill> bills = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Define the date format pattern
+        String dateFormatPattern = "HH:mm:ss dd-MM-yyyy";
+        // Define the date formatter using the pattern
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormatPattern);
+        // Calculate start and end dates for the specified month and year
+        String startDate = "00:00:00 01-" + String.format("%02d", month) + "-" + year;
+        String endDate = "23:59:59 31-" + String.format("%02d", month) + "-" + year;
+        // Parse the start and end dates using the formatter
+        LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+        LocalDateTime end = LocalDateTime.parse(endDate, formatter);
+        // Query to fetch bills for the specified month and year
+        Cursor cursor = db.rawQuery("SELECT * FROM BILL", null);
+        // Iterate through the cursor and add bills to the list
+        if (cursor.moveToFirst()) {
+            do {
+                // Parse the date from the cursor using the formatter
+                LocalDateTime time = LocalDateTime.parse(cursor.getString(3), formatter);
+                // Check if the date falls within the specified month and year
+                if (time.isAfter(start) && time.isBefore(end)) {
+                    Log.d(TAG, "getBillsByMonth: Date within the specified month and year");
+
+                    // Construct ModelBill object and add it to the list
+                    bills.add(new ModelBill(
+                            cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getDouble(5),
+                            cursor.getInt(6)
+                    ));
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return bills;
+    }
+    ///// just month for this filter
+    public ArrayList<ModelBill> getBillsByMonth(int month) {
+        ArrayList<ModelBill> bills = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Define the date format pattern
+        String dateFormatPattern = "HH:mm:ss dd-MM-yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormatPattern);
+        // Query to fetch bills for the specified month and year
+        Cursor cursor = db.rawQuery("SELECT * FROM BILL", null);
+        // Iterate through the cursor and add bills to the list
+        if (cursor.moveToFirst()) {
+            do {
+                // Parse the checking date from the cursor using the formatter
+                LocalDateTime time = LocalDateTime.parse(cursor.getString(3), formatter);
+                int m = time.getMonthValue();
+                // Check if the date falls within the specified month and year
+                if (m==month) {
+                    Log.d(TAG, "getBillsByMonth: Date within the specified month and year");
+
+                    // Construct ModelBill object and add it to the list
+                    bills.add(new ModelBill(
+                            cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getDouble(5),
+                            cursor.getInt(6)
+                    ));
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return bills;
+    }
+
+
+    public ArrayList<ModelBill> getBillsByYear(int year) {
+        ArrayList<ModelBill> bills = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Define the date format pattern
+        String dateFormatPattern = "HH:mm:ss dd-MM-yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormatPattern);
+        // Query to fetch bills for the specified month and year
+        Cursor cursor = db.rawQuery("SELECT * FROM BILL", null);
+        // Iterate through the cursor and add bills to the list
+        if (cursor.moveToFirst()) {
+            do {
+                // Parse the checking date from the cursor using the formatter
+                LocalDateTime time = LocalDateTime.parse(cursor.getString(3), formatter);
+                int y = time.getYear();
+                // Check if the date falls within the specified month and year
+                if (y==year) {
+                    Log.d(TAG, "getBillsByMonth: Date within the specified month and year");
+
+                    // Construct ModelBill object and add it to the list
+                    bills.add(new ModelBill(
+                            cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getDouble(5),
+                            cursor.getInt(6)
+                    ));
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return bills;
+    }
+
+
+
+
+// Similar methods can be implemented for week and year filters
+
 
 
 

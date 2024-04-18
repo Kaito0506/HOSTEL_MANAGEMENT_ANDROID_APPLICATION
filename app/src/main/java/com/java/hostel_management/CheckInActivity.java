@@ -53,6 +53,7 @@ public class CheckInActivity extends AppCompatActivity {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         checkInDate = now.format(formatter);
+        selectedDate = checkInDate;
         txtCheckIn.setText(checkInDate);
 
 
@@ -82,7 +83,7 @@ public class CheckInActivity extends AppCompatActivity {
                 if(txtCusName.getText().toString().isEmpty()){
                     Toast.makeText(CheckInActivity.this, "Please fill Customer name fiekd", Toast.LENGTH_SHORT).show();
                 }else {
-                    boolean isSuccess = database.addBill(room_id, txtCusName.getText().toString(), checkInDate);
+                    boolean isSuccess = database.addBill(room_id, txtCusName.getText().toString(), selectedDate);
                     if(isSuccess){
                         Toast.makeText(CheckInActivity.this, "Check in successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(CheckInActivity.this, MainActivity.class);
@@ -115,7 +116,7 @@ public class CheckInActivity extends AppCompatActivity {
         DatePickerDialog dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                selectedDate = String.valueOf(dayOfMonth)+"/"+ String.valueOf(month+1)+"/"+ String.valueOf(year);
+                selectedDate = String.format("%02d-%02d-%d", dayOfMonth, month + 1, year);
                 chooseTime();
             }
         }, y, m, d);

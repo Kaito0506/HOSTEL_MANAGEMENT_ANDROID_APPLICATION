@@ -15,6 +15,9 @@
         android:theme="@style/Theme.HOSTEL_MANAGEMENT"
         tools:targetApi="31">
         <activity
+            android:name=".ShowStatistic"
+            android:exported="false" />
+        <activity
             android:name=".CheckOutActivity"
             android:exported="false" />
         <activity
